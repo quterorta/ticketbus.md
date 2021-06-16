@@ -1,0 +1,321 @@
+{% extends 'main/layout.html' %}
+{%  load static %}
+
+{% block title %}Ticket | Confirmarea comenzii{% endblock %}
+
+{% block content %}
+
+    <div style="margin-bottom: -7.5%"><svg viewBox="0 0 100 7.5"><path d="M0,0 Q25,7.5 50,3.5 T100,3.5 L100,3.5 100,0 Z" fill="black" /></svg></div>
+
+    <div class="checkout-page-block" style="padding-bottom:10%; padding-top:7.5%;">
+
+        <h1>Vă rugăm să completați toate câmpurile de mai jos pentru a plasa o comandă:</h1>
+        <p class="checkout-page-trip"><b>Călătoria ta:</b> {{ journey.city_start_trip }} - {{ journey.city_end_trip }} | {{ time }} | {{ date }}</p>
+        <br>
+        <p class="checkout-page-passengers"><b>Număr de pasageri:</b> {{ qty_of_passengers }}</p>
+        <br>
+        <p class="checkout-page-total-price"><b>Cost total:</b> {{ total_price }}</p>
+
+
+        <form method="post" id="checkout_order_form">
+        {% csrf_token %}
+            <div class="form-group checkout_order_form_email">
+                <label for="checkout_order_form_email">Email-ul tau</label>
+                <input type="email" name="checkout_order_form_email" id="checkout_order_form_email" class="form-control" required autocomplete="on">
+            </div>
+
+            <div class="form-group checkout_order_form_phone">
+                <label for="checkout_order_form_phone">Numarul tau de telefon</label>
+                <input type="tel" name="checkout_order_form_phone" id="checkout_order_form_phone" class="form-control" required autocomplete="on">
+            </div>
+
+            <p class="checkout-order-form-passengers-hint">Completați informațiile despre pasageri:</p>
+
+            {% if qty_of_passengers >= 1 %}
+                <br>
+                <p class="checkout-order-form-passengers-header">1 pasager</p>
+                <div class="passengers-info">
+                    <div class="row">
+                        <div class="col">
+                            <label for="checkout_order_form_passenger1_name">Nume</label>
+                            <input type="text" name="checkout_order_form_passenger1_name" id="checkout_order_form_passenger1_name" class="form-control" required>
+                        </div>
+                        <div class="col">
+                            <label for="checkout_order_form_passenger1_second_name">Nume de familie</label>
+                            <input type="text" name="checkout_order_form_passenger1_second_name" id="checkout_order_form_passenger1_second_name" class="form-control" required>
+                        </div>
+                    </div>
+<!--                    <div class="row">-->
+                    <div>
+                    <div class="">
+                            <label for="checkout_order_form_passenger1_passport_type">Tipul pașaportului</label>
+                            <select name="checkout_order_form_passenger1_passport_type" id="checkout_order_form_passenger1_passport_type" class="form-control form-select">
+                                <option value="EU">EU</option>
+                                <option value="MD">MD</option>
+                            </select>
+                        </div>
+<!--                        <div class="col">-->
+<!--                            <label for="checkout_order_form_passenger1_passport_info">Seria și numărul pașaportului</label>-->
+<!--                            <input type="text" name="checkout_order_form_passenger1_passport_info" id="checkout_order_form_passenger1_passport_info" class="form-control" required>-->
+<!--                        </div>-->
+                    </div>
+                </div>
+            {% endif %}
+
+            {% if qty_of_passengers >= 2 %}
+                <br>
+                <p  class="checkout-order-form-passengers-header">Al 2-lea pasager</p>
+                <div class="passengers-info">
+                    <div class="row">
+                        <div class="col">
+                            <label for="checkout_order_form_passenger2_name">Nume</label>
+                            <input type="text" name="checkout_order_form_passenger2_name" id="checkout_order_form_passenger2_name" class="form-control" required>
+                        </div>
+                        <div class="col">
+                            <label for="checkout_order_form_passenger2_second_name">Nume de familie</label>
+                            <input type="text" name="checkout_order_form_passenger2_second_name" id="checkout_order_form_passenger2_second_name" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="">
+                            <label for="checkout_order_form_passenger2_passport_type">Tipul pașaportului</label>
+                            <select name="checkout_order_form_passenger2_passport_type" id="checkout_order_form_passenger2_passport_type" class="form-control form-select">
+                                <option value="EU">EU</option>
+                                <option value="MD">MD</option>
+                            </select>
+                        </div>
+<!--                        <div class="col">-->
+<!--                            <label for="checkout_order_form_passenger2_passport_info">Seria și numărul pașaportului</label>-->
+<!--                            <input type="text" name="checkout_order_form_passenger2_passport_info" id="checkout_order_form_passenger2_passport_info" class="form-control" required>-->
+<!--                        </div>-->
+                </div>
+            {% endif %}
+
+            {% if qty_of_passengers >= 3 %}
+                <br>
+                <p  class="checkout-order-form-passengers-header">Al 3-lea pasager</p>
+                <div class="passengers-info">
+                    <div class="row">
+                        <div class="col">
+                            <label for="checkout_order_form_passenger3_name">Nume</label>
+                            <input type="text" name="checkout_order_form_passenger3_name" id="checkout_order_form_passenger3_name" class="form-control" required>
+                        </div>
+                        <div class="col">
+                            <label for="checkout_order_form_passenger3_second_name">Nume de familie</label>
+                            <input type="text" name="checkout_order_form_passenger3_second_name" id="checkout_order_form_passenger3_second_name" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="">
+                        <div class="">
+                            <label for="checkout_order_form_passenger3_passport_type">Tipul pașaportului</label>
+                            <select name="checkout_order_form_passenger3_passport_type" id="checkout_order_form_passenger3_passport_type" class="form-control form-select">
+                                <option value="EU">EU</option>
+                                <option value="MD">MD</option>
+                            </select>
+                        </div>
+<!--                        <div class="col">-->
+<!--                            <label for="checkout_order_form_passenger3_passport_info">Seria și numărul pașaportului</label>-->
+<!--                            <input type="text" name="checkout_order_form_passenger3_passport_info" id="checkout_order_form_passenger3_passport_info" class="form-control" required>-->
+<!--                        </div>-->
+                    </div>
+                </div>
+            {% endif %}
+
+            {% if qty_of_passengers >= 4 %}
+                <br>
+                <p  class="checkout-order-form-passengers-header">Al 4-lea pasager</p>
+                <div class="passengers-info">
+                    <div class="row">
+                        <div class="col">
+                            <label for="checkout_order_form_passenger4_name">Nume</label>
+                            <input type="text" name="checkout_order_form_passenger4_name" id="checkout_order_form_passenger4_name" class="form-control" required>
+                        </div>
+                        <div class="col">
+                            <label for="checkout_order_form_passenger4_second_name">Nume de familie</label>
+                            <input type="text" name="checkout_order_form_passenger4_second_name" id="checkout_order_form_passenger4_second_name" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="">
+                        <div class="">
+                            <label for="checkout_order_form_passenger4_passport_type">Tipul pașaportului</label>
+                            <select name="checkout_order_form_passenger4_passport_type" id="checkout_order_form_passenger4_passport_type" class="form-control form-select">
+                                <option value="EU">EU</option>
+                                <option value="MD">MD</option>
+                            </select>
+                        </div>
+<!--                        <div class="col">-->
+<!--                            <label for="checkout_order_form_passenger4_passport_info">Seria și numărul pașaportului</label>-->
+<!--                            <input type="text" name="checkout_order_form_passenger4_passport_info" id="checkout_order_form_passenger4_passport_info" class="form-control" required>-->
+<!--                        </div>-->
+                    </div>
+                </div>
+            {% endif %}
+
+            {% if qty_of_passengers >= 5 %}
+                <br>
+                <p  class="checkout-order-form-passengers-header">Al 5-lea pasager</p>
+                <div class="passengers-info">
+                    <div class="row">
+                        <div class="col">
+                            <label for="checkout_order_form_passenger5_name">Nume</label>
+                            <input type="text" name="checkout_order_form_passenger5_name" id="checkout_order_form_passenger5_name" class="form-control" required>
+                        </div>
+                        <div class="col">
+                            <label for="checkout_order_form_passenger5_second_name">Nume de familie</label>
+                            <input type="text" name="checkout_order_form_passenger5_second_name" id="checkout_order_form_passenger5_second_name" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="">
+                        <div class="">
+                            <label for="checkout_order_form_passenger5_passport_type">Tipul pașaportului</label>
+                            <select name="checkout_order_form_passenger5_passport_type" id="checkout_order_form_passenger5_passport_type" class="form-control form-select">
+                                <option value="EU">EU</option>
+                                <option value="MD">MD</option>
+                            </select>
+                        </div>
+<!--                        <div class="col">-->
+<!--                            <label for="checkout_order_form_passenger5_passport_info">Seria și numărul pașaportului</label>-->
+<!--                            <input type="text" name="checkout_order_form_passenger5_passport_info" id="checkout_order_form_passenger5_passport_info" class="form-control" required>-->
+<!--                        </div>-->
+                    </div>
+                </div>
+            {% endif %}
+
+            {% if qty_of_passengers >= 6 %}
+                <br>
+                <p  class="checkout-order-form-passengers-header">Al 6-lea pasager</p>
+                <div class="passengers-info">
+                    <div class="row">
+                        <div class="col">
+                            <label for="checkout_order_form_passenger6_name">Nume</label>
+                            <input type="text" name="checkout_order_form_passenger6_name" id="checkout_order_form_passenger6_name" class="form-control" required>
+                        </div>
+                        <div class="col">
+                            <label for="checkout_order_form_passenger6_second_name">Nume de familie</label>
+                            <input type="text" name="checkout_order_form_passenger6_second_name" id="checkout_order_form_passenger6_second_name" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="">
+                        <div class="">
+                            <label for="checkout_order_form_passenger6_passport_type">Tipul pașaportului</label>
+                            <select name="checkout_order_form_passenger6_passport_type" id="checkout_order_form_passenger6_passport_type" class="form-control form-select">
+                                <option value="EU">EU</option>
+                                <option value="MD">MD</option>
+                            </select>
+                        </div>
+<!--                        <div class="col">-->
+<!--                            <label for="checkout_order_form_passenger6_passport_info">Seria și numărul pașaportului</label>-->
+<!--                            <input type="text" name="checkout_order_form_passenger6_passport_info" id="checkout_order_form_passenger6_passport_info" class="form-control" required>-->
+<!--                        </div>-->
+                    </div>
+                </div>
+            {% endif %}
+
+            {% if qty_of_passengers >= 7 %}
+                <br>
+                <p  class="checkout-order-form-passengers-header">Al 7-lea pasager</p>
+                <div class="passengers-info">
+                    <div class="row">
+                        <div class="col">
+                            <label for="checkout_order_form_passenger7_name">Nume</label>
+                            <input type="text" name="checkout_order_form_passenger7_name" id="checkout_order_form_passenger7_name" class="form-control" required>
+                        </div>
+                        <div class="col">
+                            <label for="checkout_order_form_passenger7_second_name">Nume de familie</label>
+                            <input type="text" name="checkout_order_form_passenger7_second_name" id="checkout_order_form_passenger7_second_name" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="">
+                        <div class="">
+                            <label for="checkout_order_form_passenger7_passport_type">Tipul pașaportului</label>
+                            <select name="checkout_order_form_passenger7_passport_type" id="checkout_order_form_passenger7_passport_type" class="form-control form-select">
+                                <option value="EU">EU</option>
+                                <option value="MD">MD</option>
+                            </select>
+                        </div>
+<!--                        <div class="col">-->
+<!--                            <label for="checkout_order_form_passenger7_passport_info">Seria și numărul pașaportului</label>-->
+<!--                            <input type="text" name="checkout_order_form_passenger7_passport_info" id="checkout_order_form_passenger7_passport_info" class="form-control" required>-->
+<!--                        </div>-->
+                    </div>
+                </div>
+            {% endif %}
+
+            {% if qty_of_passengers >= 8 %}
+                <br>
+                <p  class="checkout-order-form-passengers-header">Al 8-lea pasager</p>
+                <div class="passengers-info">
+                    <div class="row">
+                        <div class="col">
+                            <label for="checkout_order_form_passenger8_name">Nume</label>
+                            <input type="text" name="checkout_order_form_passenger8_name" id="checkout_order_form_passenger8_name" class="form-control" required>
+                        </div>
+                        <div class="col">
+                            <label for="checkout_order_form_passenger8_second_name">Nume de familie</label>
+                            <input type="text" name="checkout_order_form_passenger8_second_name" id="checkout_order_form_passenger8_second_name" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="">
+                        <div class="">
+                            <label for="checkout_order_form_passenger8_passport_type">Tipul pașaportului</label>
+                            <select name="checkout_order_form_passenger8_passport_type" id="checkout_order_form_passenger8_passport_type" class="form-control form-select">
+                                <option value="EU">EU</option>
+                                <option value="MD">MD</option>
+                            </select>
+                        </div>
+<!--                        <div class="col">-->
+<!--                            <label for="checkout_order_form_passenger8_passport_info">Seria și numărul pașaportului</label>-->
+<!--                            <input type="text" name="checkout_order_form_passenger8_passport_info" id="checkout_order_form_passenger8_passport_info" class="form-control" required>-->
+<!--                        </div>-->
+                    </div>
+                </div>
+            {% endif %}
+
+            {% if qty_of_passengers == 9 %}
+                <br>
+                <p class="checkout-order-form-passengers-header">Al 9-lea pasager</p>
+                <div class="passengers-info">
+                    <div class="row">
+                        <div class="col">
+                            <label for="checkout_order_form_passenger9_name">Nume</label>
+                            <input type="text" name="checkout_order_form_passenger9_name" id="checkout_order_form_passenger9_name" class="form-control" required>
+                        </div>
+                        <div class="col">
+                            <label for="checkout_order_form_passenger9_second_name">Nume de familie</label>
+                            <input type="text" name="checkout_order_form_passenger9_second_name" id="checkout_order_form_passenger9_second_name" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="">
+                        <div class="">
+                            <label for="checkout_order_form_passenger9_passport_type">Tipul pașaportului</label>
+                            <select name="checkout_order_form_passenger9_passport_type" id="checkout_order_form_passenger9_passport_type" class="form-control form-select">
+                                <option value="EU">EU</option>
+                                <option value="MD">MD</option>
+                            </select>
+                        </div>
+<!--                        <div class="col">-->
+<!--                            <label for="checkout_order_form_passenger9_passport_info">Seria și numărul pașaportului</label>-->
+<!--                            <input type="text" name="checkout_order_form_passenger9_passport_info" id="checkout_order_form_passenger9_passport_info" class="form-control" required>-->
+<!--                        </div>-->
+                    </div>
+                </div>
+            {% endif %}
+
+            <div class="form-group checkout_order_form_payment_type">
+                <label for="checkout_order_form_payment_type">Alegeți o metodă de plată:</label>
+                <select class="form-control form-select" name="checkout_order_form_payment_type" id="checkout_order_form_payment_type" required>
+                    <option value="card">Plata cu cardul</option>
+                    <option value="terminal">Plata prin terminal Cash</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <button id="checkout_order_form_button" class="btn btn-success w-100" type="submit" name="confirm_order">Verifică</button>
+            </div>
+
+        </form>
+
+    </div>
+
+    <div style="margin-top:-10%" ><svg viewBox="0 0 100 10"><path d="M0,10 Q25,10 50,5 T100,5 L100,5 100,10 Z" fill="black" /></svg></div>
+
+{% endblock %}

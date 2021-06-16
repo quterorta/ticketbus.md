@@ -1,0 +1,283 @@
+{% extends 'main/layout.html' %}
+{% load static %}
+
+{% block title %}TicketBus | Acasă{% endblock %}
+
+{% block content %}
+
+<div class="main-page-block" id="rezerva_acum">
+    <div class="non-blur-bg">
+    <div class="blur-bg">
+        <h1>Bronare bilet la autocar sau microbuz in orice directie</h1>
+
+        <form method="post" id="order_ticket_form">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col first-col">
+                    <div class="order_ticket_form_icon_exchange" onclick="swapValues()" style="cursor:pointer"><svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="25" height="25" viewBox="0 0 172 172" style=" fill:#000000;"><g fill="none" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode: normal"><path d="M0,172v-172h172v172z" fill="none"></path><g fill="#66fcf1"><path d="M48.375,90.03125h75.25c18.54375,0 33.59375,-15.05 33.59375,-33.59375c0,-18.54375 -15.05,-33.59375 -33.59375,-33.59375h-95.1375l14.64687,-14.64687c1.6125,-1.6125 1.6125,-4.16563 0,-5.64375c-1.6125,-1.6125 -4.16562,-1.6125 -5.64375,0l-21.5,21.5c-1.6125,1.6125 -1.6125,4.16563 0,5.64375l21.5,21.5c0.80625,0.80625 1.88125,1.20938 2.82188,1.20938c0.94063,0 2.01563,-0.40312 2.82187,-1.20938c1.6125,-1.6125 1.6125,-4.16562 0,-5.64375l-14.64687,-14.64687h95.1375c14.10938,0 25.53125,11.42188 25.53125,25.53125c0,14.10938 -11.42187,25.53125 -25.53125,25.53125h-75.25c-18.54375,0 -33.59375,15.05 -33.59375,33.59375c0,18.54375 15.05,33.59375 33.59375,33.59375h95.1375l-14.64687,14.64687c-1.6125,1.6125 -1.6125,4.16563 0,5.64375c0.80625,0.80625 1.88125,1.20938 2.82187,1.20938c0.94062,0 2.01563,-0.40313 2.82188,-1.20938l21.5,-21.5c1.6125,-1.6125 1.6125,-4.16562 0,-5.64375l-21.5,-21.5c-1.6125,-1.6125 -4.16563,-1.6125 -5.64375,0c-1.6125,1.6125 -1.6125,4.16562 0,5.64375l14.64688,14.64688h-95.1375c-14.10937,0 -25.53125,-11.42187 -25.53125,-25.53125c0,-14.10937 11.42188,-25.53125 25.53125,-25.53125z"></path></g></g></svg></div>
+                    <div class="order_ticket_form_icon_bus"><i class="fas fa-bus"></i></div>
+                    <input type="text" class="form-control order_ticket_form_input" id="order_ticket_form_city_start_trip" name="order_ticket_form_city_start_trip" list="order_ticket_form_city_start_trip_list" required value="{{start_trip_city}}">
+                    <label for="order_ticket_form_city_start_trip" class="order_ticket_form_label">De unde?</label>
+                    <datalist id="order_ticket_form_city_start_trip_list">
+                        {% for start_city in start_city %}
+                            <option value="{{ start_city.title }}"></option>
+                        {% endfor %}
+                    </datalist>
+                </div>
+                <div class="col second-col">
+                    <div class="order_ticket_form_icon_city"><i class="fas fa-city"></i></div>
+                    <input type="text" class="form-control order_ticket_form_input" id="order_ticket_form_city_end_trip" name="order_ticket_form_city_end_trip" list="order_ticket_form_city_end_trip_list" required value="{{end_trip_city}}">
+                    <label for="order_ticket_form_city_end_trip" class="order_ticket_form_label">Încotro?</label>
+                    <datalist id="order_ticket_form_city_end_trip_list">
+                        {% for end_city in end_city %}
+                            <option value="{{ end_city.title }}"></option>
+                        {% endfor %}
+                    </datalist>
+                </div>
+                <div class="col third-col">
+                    <input type='text' class='form-control order_ticket_form_input datepicker-here' id="order_ticket_form_date_trip" name="order_ticket_form_date_trip" required value="{{trip_date}}" data-date-format="yyyy-mm-dd" minDate=('20,04,2021') readonly/>
+                    <label for="order_ticket_form_date_trip" class="order_ticket_form_label">Data de plecare</label>
+                </div>
+                <div class="col fourth-col">
+                    <div class="order_ticket_form_icon_passengers"><i class="fas fa-users"></i></div>
+                    <input type="number" class="form-control order_ticket_form_input" id="order_ticket_form_qty_of_passengers" name="order_ticket_form_qty_of_passengers" min="1" max="9" step="1" value="1" required>
+                    <label for="order_ticket_form_qty_of_passengers">Nr Pasageri</label>
+                    <span class="step-down" onclick="this.previousElementSibling.previousElementSibling.stepDown()"><i class="fas fa-minus"></i></span>
+                    <span class="step-up" onclick="this.previousElementSibling.previousElementSibling.previousElementSibling.stepUp()"><i class="fas fa-plus"></i></span>
+                </div>
+            </div>
+            <div class="order_ticket_form_button">
+                <!-- <button id="order_ticket_form_button" class="bubbly-button" type="submit"> -->
+                <button id="order_ticket_form_button" class="bubbly-button" type="submit">
+                    Caută bilet
+                </button>
+            </div>
+        </form>
+    </div>
+    </div>
+        {% if trip_selector %}
+            <div class="search-result-block">
+            <h3 id="search_result">Bilete disponibile:<br><b>{{ start_trip_city }}</b> - <b>{{ end_trip_city }} | {{ trip_date }}</b></h3>
+            <div class="search_result_filtering">
+                <p>Filtrează după:</p>
+                Timp de plecare<a href="/search/{{ start_trip_city }}/{{ end_trip_city }}/{{ trip_date }}/{{ qty_of_passengers }}/order_by_time_hight"><i class="fas fa-chevron-up"></i></a><a href="/search/{{ start_trip_city }}/{{ end_trip_city }}/{{ trip_date }}/{{ qty_of_passengers }}/order_by_time_low"><i class="fas fa-chevron-down"></i></a>
+                Preț<a href="/search/{{ start_trip_city }}/{{ end_trip_city }}/{{ trip_date }}/{{ qty_of_passengers }}/order_by_price_hight"><i class="fas fa-chevron-up"></i></a><a href="/search/{{ start_trip_city }}/{{ end_trip_city }}/{{ trip_date }}/{{ qty_of_passengers }}/order_by_price_low"><i class="fas fa-chevron-down"></i></a>
+            </div>
+            <div class="search-ticket-block">
+                {% for time in trip_selector %}
+                {% for searched_ticket in time.journey_marker.all|dictsortreversed:"price" %}
+                {% if searched_ticket.city_start_trip.title == start_trip_city and searched_ticket.city_end_trip.title == end_trip_city %}
+                    <div class="searched-ticket search-ticket-block-pc">
+                    <div class="searched-ticket-radial-block-left-top"></div>
+                    <div class="searched-ticket-radial-block-left-bottom"></div>
+                    <div class="searched-ticket-radial-block-right-top"></div>
+                    <div class="searched-ticket-radial-block-right-bottom"></div>
+                        <div class="searched-ticket-type-of-transport">
+                            <p>{{ searched_ticket.type_of_transport }}</p>
+                        </div>
+                        <div class="searched-ticket-info">
+                            <table>
+                                <tr class="searched-ticket-info-table-header">
+                                    <th>Pornire:</th>
+                                    <th>Model:</th>
+                                    <th>Preț:</th>
+                                </tr>
+                                <tr class="searched-ticket-info-table-columns">
+                                    <td class="searched-ticket-info-table-first-column">
+                                        <p class="searched-ticket-trip-time">{{ time }}</p>
+                                        <p class="searched-ticket-trip-date">{{ trip_date }}</p>
+                                        <button type="button" class="btn searched-ticket-image-button" data-bs-toggle="modal" data-bs-target="#imageModal{{ searched_ticket.id }}">Imagine</button>
+                                    </td>
+                                    <td class="searched-ticket-info-table-second-column">
+                                        <p class="searched-ticket-transport-model">{{ searched_ticket.model_of_transport.title }}</p>
+                                        <p class="searched-ticket-transport-hint">Traseu:</p>
+                                        <p class="searched-ticket-tree-cities-trip">{{ searched_ticket.city_start_trip.title}} <b>—</b> {{ searched_ticket.city_center_trip}} <b>—</b> {{ searched_ticket.city_end_trip}}</p>
+                                        <div class="dropdown">
+                                            <button class="btn" type="button" id="allCitiesButton" data-bs-toggle="dropdown" aria-expanded="false">Vedeți toate orașele</button>
+                                            <ul class="dropdown-menu dropdown-menu_allCitiesButton" aria-labelledby="allCitiesButton">
+                                                <p class="searched-ticket-all-cities-trip">{{ searched_ticket.all_city_trip }}</p>
+                                            </ul>
+                                        </div>
+                                    </td>
+                                    <td class="searched-ticket-info-table-third-column">
+                                        <p class="searched-ticket-base-price"> De la: {{ searched_ticket.price }} MDL</p>
+                                        <a class="searched-ticket-order-button" href="/order/{{ searched_ticket.id }}/{{ trip_date }}/{{ time }}/{{ qty_of_passengers }}">Cumpără</a>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="modal fade" id="imageModal{{ searched_ticket.id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    {% if searched_ticket.image %}
+                                    <img src="{{ searched_ticket.image.url }}" alt="">
+                                    {% else %}
+                                    <p>Ne pare rău, nu există imagini pentru această călătorie :(</p>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="searched-ticket-block-mobile-display">
+                    <div class="searched-ticket-block-mobile frame">
+                        <div class="ticket-grid">
+                        <div class="searched-ticket-block-mobile-start-trip">
+                            <p class="searched-ticket-block-mobile-start-trip-header">De unde</p>
+                            <p class="searched-ticket-block-mobile-start-trip-city">{{ searched_ticket.city_start_trip }}</p>
+                            <p class="searched-ticket-block-mobile-start-trip-date-time">{{ trip_date }}<br><b>{{ time }}</b></p>
+                        </div>
+                        <div class="searched-ticket-block-mobile-end-trip">
+                            <p class="searched-ticket-block-mobile-end-trip-header">Încotro</p>
+                            <p class="searched-ticket-block-mobile-end-trip-city">{{ searched_ticket.city_end_trip }}</p>
+                            <p class="searched-ticket-block-mobile-end-trip-date-time"><b>{{ searched_ticket.time_in_journey }}</b></p>
+                        </div>
+                        </div>
+                        <div class="searched-ticket-block-mobile-all-trip">
+                            <p class="searched-ticket-block-mobile-all-trip-header">Prin orașe</p>
+                            <p class="searched-ticket-block-mobile-all-trip-list">{{ searched_ticket.all_city_trip }}</p>
+                        </div>
+
+                        <div class="searched-ticket-block-mobile-transfer-trip">
+                            <p class="searched-ticket-block-mobile-transfer">{{ searched_ticket.transfer.title }} | {{ searched_ticket.model_of_transport.title }}</p>
+                            <button type="button" class="btn searched-ticket-image-button" data-bs-toggle="modal" data-bs-target="#imageModal{{ searched_ticket.id }}">Imagine</button>
+                        </div>
+                        <div>
+                            <p class="searched-ticket-block-mobile-base-price-header">Preț</p>
+                            <p class="searched-ticket-block-mobile-base-price"> De la: {{ searched_ticket.price }} MDL</p>
+                        </div>
+                    </div>
+                    <div>
+                        <a class="searched-ticket-block-mobile-order-button" href="/order/{{ searched_ticket.id }}/{{ trip_date }}/{{ time }}/{{ qty_of_passengers }}">Cumpără</a>
+                    </div>
+                    </div>
+                {% endif %}
+                {% endfor %}
+                {% endfor %}
+            </div>
+            </div>
+        {% else %}
+            {% if empty_trip_selector %}
+                <p id="non_search_result" class="error-search-trip-hint">{{ empty_trip_selector }}</p>
+            {% endif %}
+        {% endif %}
+</div>
+
+    <!--<div><svg viewBox="0 0 100 10"><path d="M0,0 Q25,10 50,5 T100,5 L100,5 100,0 Z" fill="#18222e" /></svg></div>-->
+
+    <!--<div class="background-triangle-down-block"></div>-->
+
+        <div class="popular-trip-block-container">
+        <h2>Trasee populare</h2>
+        <div class="popular-trip-block">
+            {% for popular_trip in popular_trip %}
+                <div class="popular-trip-card">
+                    <div class="popular-trip-card-image">
+                        <a href="/popular/{{ popular_trip.start_city_popular_trip }}/{{ popular_trip.end_city_popular_trip }}"><img src="{{ popular_trip.image.url }}" alt=""></a>
+                    </div>
+                    <a href="/popular/{{ popular_trip.start_city_popular_trip }}/{{ popular_trip.end_city_popular_trip }}"><div class="popular-trip-card-text">
+                        <p class="popular-trip-card-start-city">{{ popular_trip.start_city_popular_trip }}</p>
+                        <p class="popular-trip-card-end-city">{{ popular_trip.end_city_popular_trip }}</p>
+                    </div></a>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+
+    <div class="first-block-main-page" id="cum_lucram">
+    <h2>Cum lucrăm</h2>
+    <div class="first-block-main-page-grid-box">
+        <div class="first-block-main-page-grid-item">
+            <div class="first-block-main-page-grid-item-image-box">
+                <img src="https://img.icons8.com/nolan/125/planner.png"/>
+            </div>
+            <div class="first-block-main-page-grid-item-header-box">
+                <p>Verificați<br>programul</p>
+            </div>
+            <div class="first-block-main-page-grid-item-text-box">
+                <p>Selectați punctul de plecare, destinația, precum și data călătoriei și numărul de pasageri.</p>
+            </div>
+        </div>
+
+        <div class="first-block-main-page-grid-item">
+            <div class="first-block-main-page-grid-item-image-box">
+                <img src="https://img.icons8.com/nolan/125/ticket.png"/>
+            </div>
+            <div class="first-block-main-page-grid-item-header-box">
+                <p>Selectați<br>zborul</p>
+            </div>
+            <div class="first-block-main-page-grid-item-text-box">
+                <p>Comparați prețurile biletelor de autobuz, locațiile de plecare și orele.</p>
+            </div>
+        </div>
+
+        <div class="first-block-main-page-grid-item">
+            <div class="first-block-main-page-grid-item-image-box">
+                <img src="https://img.icons8.com/nolan/125/buy-with-card.png"/>
+            </div>
+            <div class="first-block-main-page-grid-item-header-box">
+                <p>Cumpara<br>un bilet</p>
+            </div>
+            <div class="first-block-main-page-grid-item-text-box">
+                <p>Introduceți toate informațiile pentru plasarea și plata comenzii.</p>
+            </div>
+        </div>
+
+        <div class="first-block-main-page-grid-item">
+            <div class="first-block-main-page-grid-item-image-box">
+                <img src="https://img.icons8.com/nolan/125/bus.png"/>
+            </div>
+            <div class="first-block-main-page-grid-item-header-box">
+                <p>Totul este<br>gata!</p>
+            </div>
+            <div class="first-block-main-page-grid-item-text-box">
+                <p>Vă rugăm să lăsați o recenzie după călătorie - acest lucru va îmbunătăți calitatea serviciului.</p>
+            </div>
+        </div>
+
+    </div>
+    </div>
+
+    <div><svg viewBox="0 0 100 10"><path d="M0,10 Q25,10 50,5 T100,5 L100,5 100,10 Z" fill="#18222e" /></svg></div>
+    <!--<div class="background-triangle-down-block-2"></div>-->
+
+    <div class="second-block-main-page" id="despre_noi">
+
+        <h2>Despre Noi</h2>
+
+        <div class="second-block-main-page-info-block">
+            <h3><i class="fas fa-info-circle"></i> Informatie</h3>
+            <div class="second-block-main-page-info-block-text-grid-box">
+                <div class="second-block-main-page-info-block-text-grid-box-text"><p>Serviciul TicketBus funcționează numai cu transportatori de încredere, ceea ce vă permite să cumpărați bilete pentru autobuze pe distanțe lungi prin Internet, fără niciun risc. Plata se face printr-un gateway securizat folosind cele mai noi tehnologii de criptare. Atunci când cumpărați bilete, puteți alege între stațiile de autobuz de plecare și sosire, rute diferite, precum și alegerea unui loc în autobuz.</p></div>
+                <div class="second-block-main-page-info-block-text-grid-box-nav">
+                    <a href="/faq/#common"><i class="fas fa-question-circle"></i> Întrebări frecvente</a>
+                    <br>
+                    <a href="/faq/#refund"><i class="fas fa-ticket-alt"></i> Termeni de returnare</a>
+                    <br>
+                    <a href="/faq/#safe"><i class="fas fa-shield-alt"></i> Securitate de plată</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="second-block-main-page-info-2-block">
+            <h3><i class="fas fa-bus"></i> Orare și bilete de autobuz</h3>
+            <div class="second-block-main-page-info-2-block-text-grid-box">
+                <div class="second-block-main-page-info-2-block-text-grid-box-text">
+                    <p>Unitiki este un site oficial care vă permite să cumpărați bilete ieftine de autobuz online în Rusia, țările CSI și Europa. <br><br>Aflați programul și costul biletelor pentru autobuze pe 20.000 de direcții interurbane și suburbane de la 2.500 de transportatori, precum și pe multe zboruri internaționale către țări străine.<br><br>Prețurile biletelor de autobuz, disponibilitatea, orarele și orele stațiilor de autobuz sunt întotdeauna actualizate. Este disponibilă asistență prin telefon și e-mail, iar rambursările biletelor sunt posibile cu cel puțin 1 oră înainte de începerea călătoriei.</p>
+                </div>
+                <div class="second-block-main-page-info-2-block-text-grid-box-image">
+                    <img src="{% static 'main/img/main-page-second-block-image-1.png' %}" alt="">
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+{% endblock %}

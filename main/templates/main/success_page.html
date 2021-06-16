@@ -1,0 +1,26 @@
+{% extends 'main/layout.html' %}
+{% load static %}
+
+{% block title %}Ticket | Comanda dvs. a fost finalizată{% endblock %}
+
+{% block content %}
+
+    <div><svg style="vertical-align: top;" viewBox="0 0 100 8"><path d="M0,0 Q25,8 50,4 T100,4 L100,4 100,0 Z" fill="black" /></svg></div>
+
+    <!--<div class="success-page-block">
+        <div class="success-order-msg">
+            <p class="success_order_message">Vă mulțumim că utilizați serviciile noastre. În viitorul apropiat, managerul nostru vă va contacta!</p>
+            <p class="success_order_id">ID-ul comenzii dvs: #{{ order_id }}</p>
+            <img src="{% static 'main/img/success-message-image.png' %}" alt="">
+        </div>
+    </div>-->
+
+    <div class=content>
+        <h1>ID-ul comenzii dvs: #{{ order_id }}</h1>
+        <p>Vă mulțumim că utilizați serviciile noastre. În viitorul apropiat, managerul nostru vă va contacta!</p>
+        <a class="success_link" href="/">În principal</a>
+    </div>
+
+    <div><svg style="vertical-align: bottom;" viewBox="0 0 100 8"><path d="M0,8 Q25,8 50,4 T100,4 L100,4 100,8 Z" fill="black" /></svg></div>
+
+{% endblock %}

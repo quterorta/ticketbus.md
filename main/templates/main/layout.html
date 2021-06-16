@@ -1,0 +1,99 @@
+{% load static %}
+<!doctype html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="shortcut icon" href="{% static 'main/img/logo-minimal.png' %}" type="image/png">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+    <link rel="stylesheet" href="{% static 'main/css/main.css' %}">
+    <link rel="stylesheet" href="{% static 'main/css/mobile.css' %}">
+    <link rel="stylesheet" href="{% static 'main/css/datepicker.css' %}">
+    <script src="{% static 'main/js/main.js' %}"></script>
+    <script src="{% static 'main/js/preloader.js' %}"></script>
+    <script src="{% static 'main/js/datepicker.js' %}"></script>
+</head>
+<body onload="scrollToSearchResult()">
+    <header class="pc-header" style="z-index: 999;">
+        <div class="pc-header-logo-box">
+            <a class="pc-header-logo" href="/"><img src="{% static 'main/img/logo.png' %}" alt=""></a>
+            <a class="mobile-header-logo" href="/"><img src="{% static 'main/img/logo.png' %}" alt=""></a>
+        </div>
+        <div class="pc-header-text-block">
+            <p>Bilete online în orice direcție</p>
+        </div>
+        <div class="pc-header-menu-button-block">
+            <div class="dropleft">
+                <button class="btn pc-header-menu-button" type="button" id="dropdownHeaderMenuButton" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-bars"></i></button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownHeaderMenuButton">
+                    <li><a class="dropdown-item" href="/">Acasă</a></li>
+                    <li><a class="dropdown-item" href="/#rezerva_acum">Rezerva acum</a></li>
+                    <li><a class="dropdown-item" href="/#cum_lucram">Cum lucrăm</a></li>
+                    <li><a class="dropdown-item" href="/#despre_noi">Despre noi</a></li>
+                    <li><a class="dropdown-item" href="/#contacte">Contacte</a></li>
+                </ul>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        {% block content %}
+        {% endblock %}
+
+        <div id="preloader" style="display: none;">
+            <div class="loading">
+                <div class="loading-text">
+                    <span class="loading-text-words">C</span>
+                    <span class="loading-text-words">Ă</span>
+                    <span class="loading-text-words">U</span>
+                    <span class="loading-text-words">T</span>
+                    <span class="loading-text-words">Ă</span>
+                    <span class="loading-text-words">M</span>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <footer class="footer" id="contacte">
+        <div class="footer-block">
+        <div class="footer-info-block">
+            <p class="footer-info-block-header"><i class="fas fa-info-circle"></i> Informație</p>
+            <ul>
+                <li><a class="footer-info-link" href="">Pasagerii</a></li>
+                <li><a class="footer-info-link" href="">Pentru agenți</a></li>
+                <li><a class="footer-info-link" href="">Contacte</a></li>
+                <li><a class="footer-info-link" href="">Mărturii</a></li>
+                <li><a class="footer-info-link" href="">Închirieri autobuze</a></li>
+            </ul>
+        </div>
+        <div class="footer-help-block">
+            <p class="footer-help-block-header"><i class="fas fa-book"></i> Director</p>
+            <ul>
+                <li><a class="footer-help-link" href="">Stații de autobuz</a></li>
+                <li><a class="footer-help-link" href="">Programul autobuzului</a></li>
+                <li><a class="footer-help-link" href="">Regiuni</a></li>
+                <li><a class="footer-help-link" href="">Purtători</a></li>
+            </ul>
+        </div>
+        <div class="footer-contact-block">
+            <a href="/"><img src="{% static 'main/img/logo.png' %}" alt=""></a>
+            <ul>
+                <li><a class="footer-contact-link footer-contact-link-phone" href="tel:+88003332211">8 (800) 333-22-11</a></li>
+                <li><a class="footer-contact-link footer-contact-link-map" href=""><i class="fas fa-map-marker-alt"></i> Chișinăv, Pușkin 12/3</a></li>
+                <li><a class="footer-contact-link footer-contact-link-mail" href="mailto: example@gmail.com"><i class="far fa-envelope"></i> Scrie-ne: example@gmail.com</a></li>
+                <li><a class="footer-contact-link footer-contact-link-phone-2" href="tel:+380991234567"><i class="fas fa-phone"></i> +38 (099) 123-45-67</a></li>
+            </ul>
+        </div>
+        </div>
+        <div class="footer-copyright-block">
+            <p>Site elaborate de : <a href="https://moldstarter.md" target="_blank"><b>mold</b>starter</a></p>
+        </div>
+    </footer>
+</body>
+</html>

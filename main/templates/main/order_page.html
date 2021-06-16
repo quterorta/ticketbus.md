@@ -1,0 +1,101 @@
+{%  extends 'main/layout.html' %}
+{% load static %}
+
+{% block title %}Ticket | Verifică{% endblock %}
+
+{% block content %}
+    <div style="margin-bottom: -7.5%"><svg viewBox="0 0 100 7.5"><path d="M0,0 Q25,7.5 50,3.5 T100,3.5 L100,3.5 100,0 Z" fill="black" /></svg></div>
+
+    <div class="order_page_block" style="padding-bottom:10%; padding-top:7.5%;">
+
+    {% if journey.qty_of_seats < qty_of_passengers or journey.active == False %}
+        <div class="error-order-msg">
+            <p class="error_order_message">Ne pare rău, această călătorie este inactivă :(</p>
+            <img src="{% static 'main/img/order-error-message-image.png' %}" alt="">
+        </div>
+    {% else %}
+        <h1>Efectuarea unei comenzi pentru o călătorie</h1>
+        <br><br>
+    <div class="order-ticket-block order-ticket-block-pc">
+        <div class="order-ticket-radial-block-left-top"></div>
+        <div class="order-ticket-radial-block-left-bottom"></div>
+        <div class="order-ticket-radial-block-right-top"></div>
+        <div class="order-ticket-radial-block-right-bottom"></div>
+        <table>
+            <tr class="order-ticket-headers">
+                <th>De unde</th>
+                <th>Prin orașe</th>
+                <th>Încotro</th>
+                <th>Preț</th>
+                <th></th>
+            </tr>
+            <tr>
+                <td>
+                    <p class="order-ticket-city">{{ journey.city_start_trip }}</p>
+                    <p class="order-ticket-date">{{ date }}</p>
+                    <p class="order-ticket-time"><b>{{ time }}</b></p>
+                </td>
+                <td>
+                    <p class="order-ticket-all-city">{{ journey.all_city_trip }}</p>
+                </td>
+                <td>
+                    <p class="order-ticket-city">{{ journey.city_end_trip }}</p>
+                    <p class="order-ticket-time">Timp de calatorie:<br><b>{{ journey.time_in_journey }}</b></p>
+                </td>
+                <td>
+                    {% if qty_of_passengers == 1 %}
+                        <p class="order-ticket-total-price">{{ total_price }} MDL</p>
+                        {% elif qty_of_passengers < 4  %}
+                            <p class="order-ticket-total-price">{{ total_price }} MDL</p>
+                            <p class="order-ticket-price-hint">{{ qty_of_passengers }} pasageri Х {{ journey.price}}</p>
+                        {% else %}
+                            <p class="order-ticket-total-price">{{ total_price }} MDL</p>
+                            <p class="order-ticket-price-hint">{{ qty_of_passengers }} pasagerilor Х {{ journey.price}}</p>
+                    {% endif %}
+                </td>
+                <td>
+                    <a href="/checkout/{{ journey.id }}/{{date}}/{{time}}/{{ qty_of_passengers }}" class="order-ticker-button">Cumpără</a>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="5" class="order-ticket-transfer">
+                    <p>Transportator: "{{ journey.transfer.title }}" | {{ journey.model_of_transport.title }}</p>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="order-ticket-block-mobile">
+        <div class="city-grid">
+        <div class="order-ticket-block-mobile-start-trip">
+            <p class="order-ticket-block-mobile-start-trip-header">De unde</p>
+            <p class="order-ticket-block-mobile-start-trip-city">{{ journey.city_start_trip }}</p>
+            <p class="order-ticket-block-mobile-start-trip-date-time">{{ date }}<br><b>{{ time }}</b></p>
+        </div>
+        <div class="order-ticket-block-mobile-end-trip">
+            <p class="order-ticket-block-mobile-end-trip-header">Încotro</p>
+            <p class="order-ticket-block-mobile-end-trip-city">{{ journey.city_end_trip }}</p>
+            <p class="order-ticket-block-mobile-end-trip-date-time"><b>{{ journey.time_in_journey }}</b></p>
+        </div>
+        </div>
+        <div class="order-ticket-block-mobile-all-trip">
+            <p class="order-ticket-block-mobile-all-trip-header">Prin orașe</p>
+            <p class="order-ticket-block-mobile-all-trip-list">{{ journey.all_city_trip }}</p>
+        </div>
+        <div class="order-ticket-block-mobile-transfer-trip">
+            <p class="order-ticket-block-mobile-transfer">{{ journey.transfer.title }} | {{ journey.model_of_transport.title }}</p>
+        </div>
+        <div>
+            <p class="order-ticket-block-mobile-base-price-header">Preț</p>
+            <p class="order-ticket-block-mobile-base-price"> De la: {{ journey.price }} MDL</p>
+            <a class="order-ticket-block-mobile-order-button" href="/checkout/{{ journey.id }}/{{date}}/{{time}}/{{ qty_of_passengers }}">Cumpără</a>
+        </div>
+    </div>
+
+    {% endif %}
+
+    </div>
+
+    <div style="margin-top:-10%"><svg viewBox="0 0 100 10"><path d="M0,10 Q25,10 50,5 T100,5 L100,5 100,10 Z" fill="black" /></svg></div>
+
+{% endblock %}
